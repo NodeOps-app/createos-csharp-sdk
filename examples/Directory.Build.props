@@ -5,7 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(CreateOSPackageVersion)' == ''">
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\CreateOS.Sandbox\CreateOS.Sandbox.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(CreateOSPackageVersion)' != ''">
+    <PackageReference Include="CreateOS.Sandbox" Version="$(CreateOSPackageVersion)" />
   </ItemGroup>
 </Project>

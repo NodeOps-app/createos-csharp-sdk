@@ -19,7 +19,10 @@ source](https://docs.github.com/en/packages/working-with-a-github-packages-regis
 then install the package with:
 
 ```bash
-dotnet add package CreateOS.Sandbox
+dotnet nuget add source https://nuget.pkg.github.com/NodeOps-app/index.json \
+  --name createos
+NuGetPackageSourceCredentials_createos="Username=$GITHUB_USER;Password=$GITHUB_PACKAGES_TOKEN" \
+  dotnet add package CreateOS.Sandbox --version 0.1.0
 ```
 
 ```csharp
