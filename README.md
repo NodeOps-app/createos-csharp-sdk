@@ -1,7 +1,5 @@
 # CreateOS C# SDK
 
-![CreateOS C# SDK quick start](assets/createos-csharp-sdk.png)
-
 Launch an isolated cloud sandbox, run real commands, stream output, move files,
 open a preview URL, and tear everything down from .NET.
 
