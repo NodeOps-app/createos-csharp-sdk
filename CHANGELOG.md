@@ -1,0 +1,11 @@
+# Changelog
+
+## [0.1.1](https://github.com/NodeOps-app/createos-csharp-sdk/releases/tag/v0.1.1) — 2026-09-16
+
+- Changed the environment fallback for API-key authentication to `CREATEOS_API_KEY` only. Explicit `SandboxClientOptions.ApiKey` still takes precedence.
+- Updated the package README to show installation from the published GitHub Packages feed and refreshed the example instructions.
+
+## [0.1.0](https://github.com/NodeOps-app/createos-csharp-sdk/releases/tag/v0.1.0) — 2026-09-16
+
+- Initial .NET 8 SDK release with asynchronous sandbox lifecycle, command execution and streaming, file transfer, networking, templates, disks, managed processes, and desktop automation.
+- Added runnable examples, automated tests, CI validation, and GitHub Packages publishing on release.

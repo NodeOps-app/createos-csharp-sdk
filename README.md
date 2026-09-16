@@ -84,6 +84,7 @@ is not supplied.
   explains lifecycle, networking, storage, and isolation.
 - [CreateOS Sandbox documentation](https://nodeops.network/createos/docs)
   contains the REST API reference and product guides.
+- [Changelog](CHANGELOG.md) records changes in each release.
 - [Runnable examples](#examples) cover commands, streaming, files, snapshots,
   ingress, networks, templates, managed processes, desktop use, and an HTTP
   execution service.
