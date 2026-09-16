@@ -8,8 +8,8 @@ request-level timeouts, retries, typed models, and inspectable errors.
 
 ## Your first sandbox
 
-Install from nuget.org after the `0.1.2` release is published. No GitHub
-package source or token is needed:
+Install the published [CreateOS.Sandbox package](https://www.nuget.org/packages/CreateOS.Sandbox/0.1.2)
+from nuget.org. No GitHub package source or token is needed:
 
 ```bash
 dotnet add package CreateOS.Sandbox --version 0.1.2

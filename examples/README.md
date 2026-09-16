@@ -11,8 +11,8 @@ example from the repository root:
 dotnet run --project examples/HelloWorld/HelloWorld.csproj
 ```
 
-To use a package from nuget.org after the `0.1.2` release is published, set
-`CreateOSPackageVersion` instead of using the local project:
+To use the published package from nuget.org instead of the local project, set
+`CreateOSPackageVersion`:
 
 ```bash
 CreateOSPackageVersion=0.1.2 dotnet run --project examples/HelloWorld/HelloWorld.csproj
