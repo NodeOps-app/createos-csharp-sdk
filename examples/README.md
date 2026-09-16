@@ -11,18 +11,18 @@ example from the repository root:
 dotnet run --project examples/HelloWorld/HelloWorld.csproj
 ```
 
-After a GitHub Release publishes a NuGet package, configure the authenticated
-NodeOps-app package source as described in the [main README](../README.md#your-first-sandbox).
+To use a published NuGet package, configure the authenticated NodeOps-app
+package source as described in the [main README](../README.md#your-first-sandbox).
 Set `CreateOSPackageVersion` to use the published package instead of the local
 project:
 
 ```bash
 NuGetPackageSourceCredentials_createos="Username=$GITHUB_USER;Password=$GITHUB_PACKAGES_TOKEN" \
-  CreateOSPackageVersion=0.1.0 \
+  CreateOSPackageVersion=0.1.1 \
   dotnet run --project examples/HelloWorld/HelloWorld.csproj
 ```
 
-Replace `0.1.0` with the release version you want to test. This switch applies
+Replace `0.1.1` with the release version you want to test. This switch applies
 to every example project, including `ExecutionServer`; unset it to return to
 the local project reference. No GitHub token or CreateOS API key belongs in
 the repository.
