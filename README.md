@@ -83,14 +83,12 @@ is not supplied.
   explains lifecycle, networking, storage, and isolation.
 - [CreateOS Sandbox documentation](https://nodeops.network/createos/docs)
   contains the REST API reference and product guides.
-- [CreateOS Go SDK](https://github.com/NodeOps-app/createos-go-sdk)
-  provides the same sandbox capabilities for Go applications.
-- [CreateOS Python SDK](https://github.com/NodeOps-app/createos-python-sdk)
-  provides the same sandbox capabilities for Python applications.
-- [CreateOS Java SDK](https://github.com/NodeOps-app/createos-java-sdk)
-  provides the same sandbox capabilities for Java applications.
-- [CreateOS TypeScript SDK](https://github.com/NodeOps-app/createos-sandbox-sdk)
-  provides the same capabilities for JavaScript and TypeScript.
+- [TypeScript SDK](https://github.com/NodeOps-app/createos-sandbox-sdk)
+- [GoLang SDK](https://github.com/NodeOps-app/createos-go-sdk)
+- [C# SDK](https://github.com/NodeOps-app/createos-csharp-sdk) (this repository)
+- [Java SDK](https://github.com/NodeOps-app/createos-java-sdk)
+- [Rust SDK](https://github.com/NodeOps-app/createos-rust-sdk)
+- [Python SDK](https://github.com/NodeOps-app/createos-python-sdk)
 - [Runnable examples](#examples) cover commands, streaming, files, snapshots,
   ingress, networks, templates, managed processes, desktop use, and an HTTP
   execution service.
