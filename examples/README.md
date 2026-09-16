@@ -4,7 +4,7 @@ These projects demonstrate the same API surfaces as the Go SDK examples. Each
 project is independently runnable and references the SDK source project by
 default, so no published package is required for local development.
 
-Set `CREATEOS_SANDBOX_API_KEY` in your shell or secret manager, then run an
+Set `CREATEOS_API_KEY` in your shell or secret manager, then run an
 example from the repository root:
 
 ```bash

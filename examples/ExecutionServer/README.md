@@ -5,7 +5,7 @@ runs one command without shell interpolation, returns its output, and destroys
 the sandbox.
 
 ```bash
-CREATEOS_SANDBOX_API_KEY=your-api-key \
+CREATEOS_API_KEY=your-api-key \
   dotnet run --project examples/ExecutionServer/ExecutionServer.csproj
 ```
 

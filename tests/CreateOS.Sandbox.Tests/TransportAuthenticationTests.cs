@@ -9,7 +9,7 @@ public sealed class TransportAuthenticationTests
     [Fact]
     public async Task EnvironmentApiKeyIsTrimmed()
     {
-        const string variable = "CREATEOS_SANDBOX_API_KEY";
+        const string variable = "CREATEOS_API_KEY";
         var original = Environment.GetEnvironmentVariable(variable);
         try
         {

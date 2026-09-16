@@ -62,7 +62,7 @@ C# says hello from x86_64
 ```
 
 Do not commit a real API key to source control. Inject it through your secret
-manager or the `CREATEOS_SANDBOX_API_KEY` environment variable. Explicit
+manager or the `CREATEOS_API_KEY` environment variable. Explicit
 options take precedence over environment variables:
 
 ```csharp
@@ -439,7 +439,7 @@ Runnable examples live under [`examples/`](examples/):
 Run any example with the API key in the environment:
 
 ```bash
-export CREATEOS_SANDBOX_API_KEY=your-api-key
+export CREATEOS_API_KEY=your-api-key
 dotnet run --project examples/HelloWorld/HelloWorld.csproj
 dotnet run --project examples/CommandStreaming/CommandStreaming.csproj
 ```

@@ -29,7 +29,7 @@ internal sealed class Transport : IDisposable
     {
         _options = options;
         var configuredApiKey = options.ApiKey is null
-            ? Environment.GetEnvironmentVariable("CREATEOS_SANDBOX_API_KEY")
+            ? Environment.GetEnvironmentVariable("CREATEOS_API_KEY")
             : options.ApiKey;
         _apiKey = configuredApiKey?.Trim();
         if (options.ApiKey is not null && _apiKey?.Length == 0)
@@ -105,7 +105,7 @@ internal sealed class Transport : IDisposable
         CancellationToken cancellationToken, string? contentType = null)
     {
         if (!skipAuth && string.IsNullOrWhiteSpace(_apiKey))
-            throw new InvalidOperationException("Authentication is required. Set ApiKey or CREATEOS_SANDBOX_API_KEY.");
+            throw new InvalidOperationException("Authentication is required. Set ApiKey or CREATEOS_API_KEY.");
         var uri = BuildUri(path, query);
         var retry = ResolveRetry(requestOptions);
         var retries = requestOptions?.DisableRetry == true || !allowRetry ? 0 : retry.MaxRetries;

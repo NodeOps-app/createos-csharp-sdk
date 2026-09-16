@@ -3,7 +3,7 @@ namespace CreateOS.Sandbox;
 /// <summary>Configures authentication, transport behavior, and retries for a <see cref="SandboxClient"/>.</summary>
 public sealed class SandboxClientOptions
 {
-    /// <summary>Gets or sets the API key. When omitted, the SDK reads <c>CREATEOS_SANDBOX_API_KEY</c>.</summary>
+    /// <summary>Gets or sets the API key. When omitted, the SDK reads <c>CREATEOS_API_KEY</c>.</summary>
     public string? ApiKey { get; set; }
     /// <summary>Gets or sets the CreateOS API base URI.</summary>
     public Uri? BaseUri { get; set; }

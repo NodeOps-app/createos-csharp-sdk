@@ -7,8 +7,8 @@ const long maximumRequestBytes = 1 << 20;
 var executionTimeout = TimeSpan.FromMinutes(2);
 var cleanupTimeout = TimeSpan.FromSeconds(30);
 
-if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CREATEOS_SANDBOX_API_KEY")))
-    throw new InvalidOperationException("CREATEOS_SANDBOX_API_KEY is required.");
+if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CREATEOS_API_KEY")))
+    throw new InvalidOperationException("CREATEOS_API_KEY is required.");
 
 var client = new SandboxClient();
 var slots = new SemaphoreSlim(maximumConcurrency, maximumConcurrency);
