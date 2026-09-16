@@ -14,7 +14,9 @@ Reference the project while the first NuGet release is being prepared:
 dotnet add reference path/to/createos-csharp-sdk/src/CreateOS.Sandbox/CreateOS.Sandbox.csproj
 ```
 
-After publication, install the package with:
+After a GitHub Packages release, [configure the authenticated NodeOps-app NuGet
+source](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry#installing-a-package),
+then install the package with:
 
 ```bash
 dotnet add package CreateOS.Sandbox
@@ -464,6 +466,15 @@ The repository enables the built-in .NET analyzers, enforces code style during
 builds, treats warnings as errors, and pins the .NET 8 SDK feature band.
 GitHub Actions verifies formatting, builds the complete solution, runs the test
 suite, and packs the SDK on every pull request and push to `main`.
+
+Publishing a GitHub Release with a version tag such as `v0.1.0` (or a
+prerelease tag such as `v0.2.0-rc.1`) also runs these checks and publishes
+`CreateOS.Sandbox` with that tag's version to the NodeOps-app GitHub Packages
+NuGet registry. The release workflow uses its scoped `GITHUB_TOKEN`; no
+personal access token is needed to publish. A package version cannot be
+overwritten, so use a new version tag for each release. GitHub Packages may
+create the package as private by default; adjust its visibility in GitHub if
+you want others to install it.
 
 For custom proxy, certificate, or connection settings, provide a fresh
 `HttpClientHandler` through `SandboxClientOptions.HttpClientHandler`. The SDK
