@@ -6,7 +6,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <PackageId>CreateOS.Sandbox</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>CreateOS</Authors>
     <Description>Official .NET SDK for CreateOS Sandbox.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>

@@ -8,16 +8,11 @@ request-level timeouts, retries, typed models, and inspectable errors.
 
 ## Your first sandbox
 
-Install the published package from GitHub Packages. Set `GITHUB_USER` and
-`GITHUB_PACKAGES_TOKEN` (a GitHub personal access token with `read:packages`)
-in your shell or secret manager, then [configure the NodeOps-app NuGet source](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry#installing-a-package)
-and install:
+Install from nuget.org after the `0.1.2` release is published. No GitHub
+package source or token is needed:
 
 ```bash
-dotnet nuget add source https://nuget.pkg.github.com/NodeOps-app/index.json \
-  --name createos
-NuGetPackageSourceCredentials_createos="Username=$GITHUB_USER;Password=$GITHUB_PACKAGES_TOKEN" \
-  dotnet add package CreateOS.Sandbox --version 0.1.1
+dotnet add package CreateOS.Sandbox --version 0.1.2
 ```
 
 To develop against the SDK source instead of a published package:
@@ -472,15 +467,6 @@ The repository enables the built-in .NET analyzers, enforces code style during
 builds, treats warnings as errors, and pins the .NET 8 SDK feature band.
 GitHub Actions verifies formatting, builds the complete solution, runs the test
 suite, and packs the SDK on every pull request and push to `main`.
-
-Publishing a GitHub Release with a version tag such as `v0.1.1` (or a
-prerelease tag such as `v0.2.0-rc.1`) also runs these checks and publishes
-`CreateOS.Sandbox` with that tag's version to the NodeOps-app GitHub Packages
-NuGet registry. The release workflow uses its scoped `GITHUB_TOKEN`; no
-personal access token is needed to publish. A package version cannot be
-overwritten, so use a new version tag for each release. GitHub Packages may
-create the package as private by default; adjust its visibility in GitHub if
-you want others to install it.
 
 For custom proxy, certificate, or connection settings, provide a fresh
 `HttpClientHandler` through `SandboxClientOptions.HttpClientHandler`. The SDK

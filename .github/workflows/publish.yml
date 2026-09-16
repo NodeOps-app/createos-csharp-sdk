@@ -1,4 +1,4 @@
-name: Publish GitHub Package
+name: Publish NuGet Package
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
 
 permissions:
   contents: read
-  packages: write
+  id-token: write
 
 jobs:
   publish:
@@ -27,6 +27,16 @@ jobs:
           fi
           echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
+      - name: Validate package version
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          project_version="$(dotnet msbuild src/CreateOS.Sandbox/CreateOS.Sandbox.csproj -getProperty:Version)"
+          if [[ "$project_version" != "$PACKAGE_VERSION" ]]; then
+            echo "Release tag version $PACKAGE_VERSION does not match project version $project_version." >&2
+            exit 1
+          fi
+
       - run: dotnet restore CreateOS.Sandbox.sln
       - run: dotnet format CreateOS.Sandbox.sln --verify-no-changes --no-restore
       - name: Build solution
@@ -38,13 +48,21 @@ jobs:
         run: dotnet pack src/CreateOS.Sandbox/CreateOS.Sandbox.csproj --configuration Release --no-build --no-restore -p:Version="$PACKAGE_VERSION" --output artifacts
         env:
           PACKAGE_VERSION: ${{ steps.version.outputs.value }}
-      - name: Publish to GitHub Packages
+      - name: Validate nuget.org account
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
         run: |
-          dotnet nuget add source "https://nuget.pkg.github.com/${GITHUB_REPOSITORY_OWNER}/index.json" \
-            --name github --username "$GITHUB_ACTOR" --password "$GITHUB_TOKEN" \
-            --store-password-in-clear-text
-          dotnet nuget push "artifacts/CreateOS.Sandbox.${PACKAGE_VERSION}.nupkg" \
-            --source github --api-key "$GITHUB_TOKEN" --skip-duplicate
+          if [[ -z "$NUGET_USER" ]]; then
+            echo "Set the NUGET_USER repository variable to the nuget.org profile name." >&2
+            exit 1
+          fi
+      - name: Sign in to nuget.org with GitHub OIDC
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Publish to nuget.org
+        run: dotnet nuget push "artifacts/CreateOS.Sandbox.${PACKAGE_VERSION}.nupkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
         env:
           PACKAGE_VERSION: ${{ steps.version.outputs.value }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
