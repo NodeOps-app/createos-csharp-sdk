@@ -1,4 +1,8 @@
 bin/
+.env
+.env.*
+.env-*
+!.env.example
 obj/
 .vs/
 *.user
