@@ -8,11 +8,11 @@ request-level timeouts, retries, typed models, and inspectable errors.
 
 ## Your first sandbox
 
-Install the published [CreateOS.Sandbox package](https://www.nuget.org/packages/CreateOS.Sandbox/0.1.2)
+Install the published [CreateOS.Sandbox package](https://www.nuget.org/packages/CreateOS.Sandbox)
 from nuget.org. No GitHub package source or token is needed:
 
 ```bash
-dotnet add package CreateOS.Sandbox --version 0.1.2
+dotnet add package CreateOS.Sandbox
 ```
 
 To develop against the SDK source instead of a published package:
@@ -89,10 +89,10 @@ is not supplied.
 
 - [TypeScript](https://github.com/NodeOps-app/createos-sandbox-sdk)
 - [Go](https://github.com/NodeOps-app/createos-go-sdk)
+- [Python](https://github.com/NodeOps-app/createos-python-sdk)
 - [C#](https://github.com/NodeOps-app/createos-csharp-sdk)
 - [Java](https://github.com/NodeOps-app/createos-java-sdk)
 - [Rust](https://github.com/NodeOps-app/createos-rust-sdk)
-- [Python](https://github.com/NodeOps-app/createos-python-sdk)
 
 ## Stream output as it happens
 
