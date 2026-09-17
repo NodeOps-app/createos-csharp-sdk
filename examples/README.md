@@ -11,29 +11,28 @@ example from the repository root:
 dotnet run --project examples/HelloWorld/HelloWorld.csproj
 ```
 
-To use the published package from nuget.org instead of the local project, set
-`CreateOSPackageVersion`:
+To use a published package from nuget.org instead of the local project, set
+`CreateOSPackageVersion` to the release you want to test:
 
 ```bash
-CreateOSPackageVersion=0.1.2 dotnet run --project examples/HelloWorld/HelloWorld.csproj
+CreateOSPackageVersion=YOUR_VERSION dotnet run --project examples/HelloWorld/HelloWorld.csproj
 ```
 
-Replace `0.1.2` with the release version you want to test. This switch applies
-to every example project, including `ExecutionServer`; unset it to return to
+This switch applies to every example project, including `ExecutionServer`; unset it to return to
 the local project reference. No CreateOS API key belongs in the repository.
 
 | Example | What it demonstrates |
 | --- | --- |
-| [HelloWorld](HelloWorld/Program.cs) | Create a sandbox, run a command, destroy it |
-| [CommandStreaming](CommandStreaming/Program.cs) | Read command output as it arrives |
-| [FilesAndSnapshots](FilesAndSnapshots/Program.cs) | Upload/download files and snapshot a sandbox |
-| [IngressPreview](IngressPreview/Program.cs) | Expose a service through an ingress preview URL |
-| [Network](Network/Program.cs) | Connect sandboxes on a private network |
-| [CustomTemplate](CustomTemplate/Program.cs) | Build and use a custom template |
-| [ManagedProcess](ManagedProcess/Program.cs) | Manage a long-running process |
-| [Desktop](Desktop/Program.cs) | Desktop automation and noVNC |
+| [HelloWorld](HelloWorld/README.md) | Create a sandbox, run a command, destroy it |
+| [CommandStreaming](CommandStreaming/README.md) | Read command output as it arrives |
+| [FilesAndSnapshots](FilesAndSnapshots/README.md) | Upload/download files and snapshot a sandbox |
+| [IngressPreview](IngressPreview/README.md) | Expose a service through an ingress preview URL |
+| [Network](Network/README.md) | Connect sandboxes on a private network |
+| [CustomTemplate](CustomTemplate/README.md) | Build and use a custom template |
+| [ManagedProcess](ManagedProcess/README.md) | Manage a long-running process |
+| [Desktop](Desktop/README.md) | Desktop automation and noVNC |
 | [ExecutionServer](ExecutionServer/README.md) | HTTP service that executes requests in fresh sandboxes |
-| [Readme](Readme/Program.cs) | Several README flows in one program |
+| [Readme](Readme/README.md) | Several README flows in one program |
 
 All examples make live API calls and may create billable resources. They clean
 up resources in `finally` blocks, but check your account for leftovers after

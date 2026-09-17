@@ -3,6 +3,7 @@
 This example exposes `POST /v1/execute`. Every request creates a fresh sandbox,
 runs one command without shell interpolation, returns its output, and destroys
 the sandbox.
+See [Program.cs](Program.cs) for the code.
 
 ```bash
 CREATEOS_API_KEY=your-api-key \

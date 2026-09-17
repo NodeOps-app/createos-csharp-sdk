@@ -423,15 +423,15 @@ var requestOptions = new RequestOptions
 
 Runnable examples live under [`examples/`](examples/):
 
-- [Hello world](examples/HelloWorld/Program.cs)
+- [Hello world](examples/HelloWorld/README.md)
 - [HTTP execution server](examples/ExecutionServer/README.md)
-- [Command streaming](examples/CommandStreaming/Program.cs)
-- [Files and snapshots](examples/FilesAndSnapshots/Program.cs)
-- [Ingress preview](examples/IngressPreview/Program.cs)
-- [Private overlay network](examples/Network/Program.cs)
-- [Custom template and Docker](examples/CustomTemplate/Program.cs)
-- [Managed process lifecycle](examples/ManagedProcess/Program.cs)
-- [Desktop and noVNC](examples/Desktop/Program.cs)
+- [Command streaming](examples/CommandStreaming/README.md)
+- [Files and snapshots](examples/FilesAndSnapshots/README.md)
+- [Ingress preview](examples/IngressPreview/README.md)
+- [Private overlay network](examples/Network/README.md)
+- [Custom template and Docker](examples/CustomTemplate/README.md)
+- [Managed process lifecycle](examples/ManagedProcess/README.md)
+- [Desktop and noVNC](examples/Desktop/README.md)
 
 Run any example with the API key in the environment:
 
