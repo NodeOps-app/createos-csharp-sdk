@@ -17,6 +17,7 @@ var json = new JsonSerializerOptions(JsonSerializerDefaults.Web)
     UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
 };
 var builder = WebApplication.CreateSlimBuilder(args);
+builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = maximumRequestBytes);
 builder.WebHost.UseUrls(NormalizeAddress(Environment.GetEnvironmentVariable("EXECUTION_SERVER_ADDRESS")));
 var app = builder.Build();
 

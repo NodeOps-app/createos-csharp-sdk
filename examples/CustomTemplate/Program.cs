@@ -46,7 +46,7 @@ try
     {
         Shape = "s-1vcpu-1gb",
         RootFileSystem = template.Id
-    });
+    }, new CreateSandboxOptions { Timeout = TimeSpan.FromMinutes(5) });
 
     Console.WriteLine("[4/5] starting dockerd...");
     await sandbox.ShellAsync("nohup setsid dockerd > /var/log/dockerd.log 2>&1 &");
