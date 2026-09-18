@@ -16,7 +16,7 @@ public sealed class SandboxClientOptions
     /// <summary>Gets or sets the maximum delay between retry attempts.</summary>
     public TimeSpan RetryMaxDelay { get; set; } = TimeSpan.FromSeconds(30);
     /// <summary>Gets or sets the value sent in the <c>User-Agent</c> header.</summary>
-    public string UserAgent { get; set; } = "createos-csharp-sdk/0.2.0";
+    public string UserAgent { get; set; } = "createos-csharp-sdk/0.1.3";
     /// <summary>Gets or sets a custom handler for proxy, TLS, or connection settings. Redirects are always disabled.</summary>
     public HttpClientHandler? HttpClientHandler { get; set; }
 }
