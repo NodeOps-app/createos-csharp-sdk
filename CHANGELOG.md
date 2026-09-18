@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Redact plaintext sandbox access tokens from response string output to prevent accidental disclosure in logs.
 - Set the next NuGet version and default user agent to `0.1.3`.
 - Added delegated sandbox access token lifecycle methods and a separate token scoped sandbox handle.
 

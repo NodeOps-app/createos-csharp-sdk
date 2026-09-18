@@ -131,7 +131,10 @@ public sealed record SandboxData
 public sealed record SandboxAccessTokenCreateResponse(
     string Token, bool Enabled,
     [property: JsonPropertyName("created_at")] DateTimeOffset CreatedAt,
-    [property: JsonPropertyName("rotated_at")] DateTimeOffset? RotatedAt = null);
+    [property: JsonPropertyName("rotated_at")] DateTimeOffset? RotatedAt = null)
+{
+    public override string ToString() => "SandboxAccessTokenCreateResponse { Token = [REDACTED] }";
+}
 
 /// <summary>Delegated token state without plaintext credential material.</summary>
 public sealed record SandboxAccessTokenMetadata(

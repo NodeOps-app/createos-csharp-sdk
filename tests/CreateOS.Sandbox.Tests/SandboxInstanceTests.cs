@@ -91,6 +91,7 @@ public sealed class SandboxInstanceTests
         var owner = Instance(transport, ingress: false);
         var created = await owner.CreateAccessTokenAsync();
         Assert.Equal("skp_sb_first", created.Token);
+        Assert.DoesNotContain(created.Token, created.ToString());
         Assert.Equal("skp_sb...irst", (await owner.GetAccessTokenAsync()).TokenHint);
         var worker = owner.WithAccessToken(created.Token);
         Assert.NotSame(owner.Files, worker.Files);
