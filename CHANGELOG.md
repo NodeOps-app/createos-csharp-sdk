@@ -6,7 +6,7 @@
 
 - Enforce the execution example's 1 MiB request-body limit for chunked requests.
 - Allow longer sandbox creation from custom templates in the example.
-- Prepare `0.1.2` for public nuget.org distribution with token-free installation and OIDC-based release publishing.
+- Prepare public nuget.org distribution with token-free installation and OIDC-based release publishing.
 
 ## [0.1.1](https://github.com/NodeOps-app/createos-csharp-sdk/releases/tag/v0.1.1) — 2026-09-16
 
