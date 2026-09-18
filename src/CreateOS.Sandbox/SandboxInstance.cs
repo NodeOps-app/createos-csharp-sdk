@@ -29,6 +29,28 @@ public sealed class SandboxInstance
     }
     internal string Path(string suffix = "") => $"/v1/sandboxes/{SandboxClient.Segment(Id)}{suffix}";
     private void Update(SandboxData data) { lock (_gate) _data = data; }
+    /// <summary>Returns a separate handle using a delegated sandbox token.</summary>
+    public SandboxInstance WithAccessToken(string token)
+    {
+        if (string.IsNullOrWhiteSpace(token)) throw new ArgumentException("Sandbox access token must not be empty.", nameof(token));
+        return new SandboxInstance(_transport.WithApiKey(token.Trim()), Data);
+    }
+
+    /// <summary>Creates a delegated token and returns its plaintext value once.</summary>
+    public Task<SandboxAccessTokenCreateResponse> CreateAccessTokenAsync(CancellationToken token = default) =>
+        RequiredAsync<SandboxAccessTokenCreateResponse>(HttpMethod.Post, Path("/access-token"), null, token);
+
+    /// <summary>Returns token state and its redacted hint.</summary>
+    public Task<SandboxAccessTokenMetadata> GetAccessTokenAsync(CancellationToken token = default) =>
+        RequiredAsync<SandboxAccessTokenMetadata>(HttpMethod.Get, Path("/access-token"), null, token);
+
+    /// <summary>Replaces an existing token and returns its new plaintext value.</summary>
+    public Task<SandboxAccessTokenCreateResponse> RotateAccessTokenAsync(CancellationToken token = default) =>
+        RequiredAsync<SandboxAccessTokenCreateResponse>(HttpMethod.Post, Path("/access-token/rotate"), null, token);
+
+    /// <summary>Revokes the current token, if present.</summary>
+    public Task<SandboxAccessTokenMetadata> DisableAccessTokenAsync(CancellationToken token = default) =>
+        RequiredAsync<SandboxAccessTokenMetadata>(HttpMethod.Delete, Path("/access-token"), null, token);
     private async Task<SandboxData> LifecycleAsync(HttpMethod method, string suffix, object? body, CancellationToken token)
     {
         var data = await _transport.SendAsync<SandboxData>(method, Path(suffix), body, cancellationToken: token).ConfigureAwait(false) ?? throw new JsonException("Lifecycle response contained no data.");
