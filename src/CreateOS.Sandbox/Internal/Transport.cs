@@ -60,6 +60,16 @@ internal sealed class Transport : IDisposable
         _http.Timeout = Timeout.InfiniteTimeSpan;
     }
 
+    private Transport(Transport source, string apiKey)
+    {
+        _baseUri = source._baseUri;
+        _apiKey = apiKey;
+        _http = source._http;
+        _options = source._options;
+    }
+
+    internal Transport WithApiKey(string apiKey) => new(this, apiKey);
+
     internal Uri BaseUri => _baseUri;
 
     internal async Task<T?> SendAsync<T>(HttpMethod method, string path, object? body = null, RequestOptions? options = null,

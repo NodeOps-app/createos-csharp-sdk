@@ -73,6 +73,27 @@ var client = new SandboxClient(new SandboxClientOptions
 `CREATEOS_SANDBOX_BASE_URL` optionally configures the endpoint when `BaseUri`
 is not supplied.
 
+## Delegate access to one sandbox
+
+An owner can create one delegated token for a sandbox. Plaintext is returned
+only on creation or rotation; inspection provides a redacted hint.
+
+```csharp
+var created = await sandbox.CreateAccessTokenAsync();
+var worker = sandbox.WithAccessToken(created.Token);
+var result = await worker.RunCommandAsync(new RunCommandRequest { Command = "echo", Arguments = ["hello"] });
+var metadata = await sandbox.GetAccessTokenAsync();
+var replacement = await sandbox.RotateAccessTokenAsync();
+await sandbox.DisableAccessTokenAsync();
+```
+
+Use the owner's handle for token management. The delegated handle can operate
+its bound sandbox, including commands, files, processes, computer use, pause,
+resume, and destroy; it cannot manage tokens or account resources. Creating
+another enabled token returns HTTP 409; rotation requires an existing token.
+Disabling is idempotent. Revocation is immediate in the home region and
+propagates asynchronously to peer regions.
+
 ## Documentation
 
 - [CreateOS Sandbox overview](https://nodeops.network/createos/docs/Sandbox/Overview)

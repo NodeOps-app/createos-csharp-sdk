@@ -127,6 +127,18 @@ public sealed record SandboxData
     [JsonPropertyName("forked_from")] public string? ForkedFrom { get; init; }
     [JsonPropertyName("auto_pause_after_seconds")] public int? AutoPauseAfterSeconds { get; init; }
 }
+/// <summary>A plaintext delegated credential returned only on creation or rotation.</summary>
+public sealed record SandboxAccessTokenCreateResponse(
+    string Token, bool Enabled,
+    [property: JsonPropertyName("created_at")] DateTimeOffset CreatedAt,
+    [property: JsonPropertyName("rotated_at")] DateTimeOffset? RotatedAt = null);
+
+/// <summary>Delegated token state without plaintext credential material.</summary>
+public sealed record SandboxAccessTokenMetadata(
+    bool Enabled,
+    [property: JsonPropertyName("token_hint")] string? TokenHint = null,
+    [property: JsonPropertyName("created_at")] DateTimeOffset? CreatedAt = null,
+    [property: JsonPropertyName("rotated_at")] DateTimeOffset? RotatedAt = null);
 public sealed record CommandResult([property: JsonPropertyName("stdout")] string StandardOutput, [property: JsonPropertyName("stderr")] string StandardError, [property: JsonPropertyName("exit_code")] int ExitCode, [property: JsonPropertyName("error")] string? ErrorMessage = null);
 public sealed record RunCommandResponse(CommandResult Result, [property: JsonPropertyName("exec_ms")] double ExecutionMilliseconds);
 public sealed record CommandStreamEvent(ExecStreamEventType Type, string? Data = null, int? ExitCode = null, string? ErrorMessage = null);
