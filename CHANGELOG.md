@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Set the next NuGet version and default user agent to `0.1.3`.
 - Added delegated sandbox access token lifecycle methods and a separate token scoped sandbox handle.
 
 - Enforce the execution example's 1 MiB request-body limit for chunked requests.
