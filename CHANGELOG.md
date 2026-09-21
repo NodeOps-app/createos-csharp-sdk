@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.1.3](https://github.com/NodeOps-app/createos-csharp-sdk/releases/tag/v0.1.3) — 2026-09-21
 
 - Redact plaintext sandbox access tokens from response string output to prevent accidental disclosure in logs.
 - Set the next NuGet version and default user agent to `0.1.3`.
