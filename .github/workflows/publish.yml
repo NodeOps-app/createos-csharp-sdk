@@ -6,14 +6,16 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
-  publish:
+  verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
         with:
           dotnet-version: |
             8.0.x
@@ -28,6 +30,10 @@ jobs:
             exit 1
           fi
           echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Release tag must point to a commit on main" >&2
+            exit 1
+          fi
 
       - name: Validate package version
         env:
@@ -50,6 +56,26 @@ jobs:
         run: dotnet pack src/CreateOS.Sandbox/CreateOS.Sandbox.csproj --configuration Release --no-build --no-restore -p:Version="$PACKAGE_VERSION" --output artifacts
         env:
           PACKAGE_VERSION: ${{ steps.version.outputs.value }}
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: nuget-package
+          path: artifacts/*.nupkg
+          if-no-files-found: error
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: nuget-package
+          path: artifacts
       - name: Validate nuget.org account
         env:
           NUGET_USER: ${{ vars.NUGET_USER }}
@@ -60,11 +86,10 @@ jobs:
           fi
       - name: Sign in to nuget.org with GitHub OIDC
         id: login
-        uses: NuGet/login@v1
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
         with:
           user: ${{ vars.NUGET_USER }}
       - name: Publish to nuget.org
-        run: dotnet nuget push "artifacts/CreateOS.Sandbox.${PACKAGE_VERSION}.nupkg" --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+        run: dotnet nuget push artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
         env:
-          PACKAGE_VERSION: ${{ steps.version.outputs.value }}
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
