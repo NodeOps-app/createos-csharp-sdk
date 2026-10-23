@@ -79,6 +79,7 @@ is not supplied.
 var sandbox = await client.CreateSandboxAsync(new CreateSandboxRequest
 {
     Shape = "s-1vcpu-1gb",
+    RootFileSystem = "alpine:3.20",
     Labels = new Dictionary<string, string>
     {
         ["team"] = "backend",
