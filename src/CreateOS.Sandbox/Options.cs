@@ -50,6 +50,8 @@ public sealed class ListSandboxesOptions : RequestOptions
 {
     public int? Limit { get; init; }
     public SandboxStatus? Status { get; init; }
+    /// <summary>Gets labels that must all match on returned sandboxes.</summary>
+    public IReadOnlyDictionary<string, string>? Labels { get; init; }
 }
 public sealed class PaginationOptions
 {

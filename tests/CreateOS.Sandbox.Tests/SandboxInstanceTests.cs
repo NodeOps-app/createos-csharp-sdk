@@ -62,6 +62,24 @@ public sealed class SandboxInstanceTests
     }
 
     [Fact]
+    public async Task SetLabelsPatchesAndUpdatesCachedState()
+    {
+        using var transport = CreateTransport(new DelegateHandler(request =>
+        {
+            Assert.Equal(HttpMethod.Patch, request.Method);
+            var body = request.Content!.ReadAsStringAsync().GetAwaiter().GetResult();
+            Assert.Contains("\"labels\":{\"team\":\"platform\"}", body, StringComparison.Ordinal);
+            return Json(request, "{\"status\":\"success\",\"data\":{\"id\":\"sb-1\",\"status\":\"running\",\"labels\":{\"environment\":\"test\",\"team\":\"platform\"}}}");
+        }));
+        var instance = Instance(transport, ingress: false);
+
+        await instance.SetLabelsAsync(new Dictionary<string, string> { ["team"] = "platform" });
+
+        Assert.Equal("test", instance.Labels["environment"]);
+        Assert.Equal("platform", instance.Labels["team"]);
+    }
+
+    [Fact]
     public async Task ShellThrowsForNonzeroExit()
     {
         using var transport = CreateTransport(new DelegateHandler(request => Json(request, "{\"status\":\"success\",\"data\":{\"result\":{\"stdout\":\"\",\"stderr\":\"failed\",\"exit_code\":2},\"exec_ms\":1}}")));

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added sandbox labels to create and response models, AND-matched label
+  filtering in `ListSandboxesAsync()`, and label merging through
+  `SandboxInstance.SetLabelsAsync()`.
+
 ## [0.1.3](https://github.com/NodeOps-app/createos-csharp-sdk/releases/tag/v0.1.3) — 2026-09-21
 
 - Redact plaintext sandbox access tokens from response string output to prevent accidental disclosure in logs.
