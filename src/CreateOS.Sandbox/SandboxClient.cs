@@ -72,7 +72,11 @@ public sealed class SandboxClient : IDisposable
     /// <summary>Lists sandboxes, transparently walking server-side pages.</summary>
     public async Task<IReadOnlyList<SandboxInstance>> ListSandboxesAsync(ListSandboxesOptions? options = null, CancellationToken cancellationToken = default)
     {
-        var query = options?.Status is { } status ? new Dictionary<string, string?> { ["status"] = Wire(status) } : null;
+        Dictionary<string, string?>? query = null;
+        if (options?.Status is { } status)
+            (query ??= [])["status"] = Wire(status);
+        if (options?.Labels is { Count: > 0 } labels)
+            (query ??= [])["labels"] = JsonSerializer.Serialize(labels, Transport.Json);
         var data = await FetchAllAsync<SandboxData>(_transport, "/v1/sandboxes", options?.Limit, 0, null, query, options, cancellationToken).ConfigureAwait(false);
         return data.Select(x => new SandboxInstance(_transport, x)).ToArray();
     }

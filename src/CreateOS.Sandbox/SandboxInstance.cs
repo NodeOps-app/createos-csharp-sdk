@@ -20,6 +20,7 @@ public sealed class SandboxInstance
     public string? Name { get { lock (_gate) return _data.Name; } }
     public SandboxStatus Status { get { lock (_gate) return _data.Status; } }
     public string? IpAddress { get { lock (_gate) return _data.IpAddress; } }
+    public IReadOnlyDictionary<string, string> Labels { get { lock (_gate) return _data.Labels is null ? new Dictionary<string, string>() : new Dictionary<string, string>(_data.Labels); } }
     public SandboxData Data { get { lock (_gate) return _data; } }
 
     internal SandboxInstance(Transport transport, SandboxData data)
@@ -72,6 +73,9 @@ public sealed class SandboxInstance
         lock (_gate) _data = _data with { DiskMiB = result.DiskMiB }; return result.DiskMiB;
     }
     public async Task SetIngressAsync(bool enabled, CancellationToken cancellationToken = default) => _ = await LifecycleAsync(HttpMethod.Patch, "", new { ingress_enabled = enabled }, cancellationToken).ConfigureAwait(false);
+    /// <summary>Merges labels into the sandbox's existing labels.</summary>
+    public async Task SetLabelsAsync(IReadOnlyDictionary<string, string> labels, CancellationToken cancellationToken = default) =>
+        _ = await LifecycleAsync(HttpMethod.Patch, "", new { labels }, cancellationToken).ConfigureAwait(false);
     public async Task SetAutoPauseAsync(TimeSpan? timeout, CancellationToken cancellationToken = default)
     {
         if (timeout is { } duration && (duration < TimeSpan.FromMinutes(1) || duration > TimeSpan.FromHours(24) || duration.Ticks % TimeSpan.TicksPerSecond != 0))

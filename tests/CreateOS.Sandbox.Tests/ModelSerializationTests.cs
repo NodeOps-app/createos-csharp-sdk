@@ -28,6 +28,22 @@ public sealed class ModelSerializationTests
     }
 
     [Fact]
+    public void SerializesAndDeserializesSandboxLabels()
+    {
+        var json = JsonSerializer.Serialize(new CreateSandboxRequest
+        {
+            Shape = "s-1vcpu-1gb",
+            Labels = new Dictionary<string, string> { ["team"] = "backend" },
+        }, Transport.Json);
+        var sandbox = JsonSerializer.Deserialize<SandboxData>(
+            "{\"id\":\"sb-1\",\"status\":\"running\",\"labels\":{\"team\":\"backend\"}}",
+            Transport.Json);
+
+        Assert.Contains("\"labels\":{\"team\":\"backend\"}", json, StringComparison.Ordinal);
+        Assert.Equal("backend", sandbox!.Labels!["team"]);
+    }
+
+    [Fact]
     public void DeserializesKnownWireEnumsAndRejectsUnknown()
     {
         var status = JsonSerializer.Deserialize<SandboxStatus>("\"running\"", Transport.Json);

@@ -73,6 +73,31 @@ var client = new SandboxClient(new SandboxClientOptions
 `CREATEOS_SANDBOX_BASE_URL` optionally configures the endpoint when `BaseUri`
 is not supplied.
 
+## Organize sandboxes with labels
+
+```csharp
+var sandbox = await client.CreateSandboxAsync(new CreateSandboxRequest
+{
+    Shape = "s-1vcpu-1gb",
+    Labels = new Dictionary<string, string>
+    {
+        ["team"] = "backend",
+        ["environment"] = "test",
+    },
+});
+
+var matches = await client.ListSandboxesAsync(new ListSandboxesOptions
+{
+    Labels = new Dictionary<string, string> { ["team"] = "backend" },
+});
+
+await sandbox.SetLabelsAsync(
+    new Dictionary<string, string> { ["environment"] = "production" });
+```
+
+List filters use AND semantics. `SetLabelsAsync()` merges the supplied keys
+into the existing label map.
+
 ## Delegate access to one sandbox
 
 An owner can create one delegated token for a sandbox. Plaintext is returned

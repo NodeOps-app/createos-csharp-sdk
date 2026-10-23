@@ -40,6 +40,7 @@ public sealed record CreateSandboxRequest
     [JsonPropertyName("shape")] public required string Shape { get; init; }
     [JsonPropertyName("rootfs")] public string? RootFileSystem { get; init; }
     [JsonPropertyName("name")] public string? Name { get; init; }
+    [JsonPropertyName("labels")] public IReadOnlyDictionary<string, string>? Labels { get; init; }
     [JsonPropertyName("networks")] public IReadOnlyList<NetworkEntry>? Networks { get; init; }
     [JsonPropertyName("disk_mib")] public long? DiskMiB { get; init; }
     [JsonPropertyName("egress")] public IReadOnlyList<string>? EgressRules { get; init; }
@@ -111,6 +112,7 @@ public sealed record SandboxData
     [JsonPropertyName("ingress_enabled")] public bool IngressEnabled { get; init; }
     [JsonPropertyName("ingress_url_template")] public string? IngressUrlTemplate { get; init; }
     public string? Name { get; init; }
+    public IReadOnlyDictionary<string, string>? Labels { get; init; }
     [JsonPropertyName("running_at")] public DateTimeOffset? RunningAt { get; init; }
     [JsonPropertyName("destroyed_at")] public DateTimeOffset? DestroyedAt { get; init; }
     [JsonPropertyName("spawn_ms")] public double? SpawnMilliseconds { get; init; }
