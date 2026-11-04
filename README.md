@@ -99,6 +99,27 @@ await sandbox.SetLabelsAsync(
 List filters use AND semantics. `SetLabelsAsync()` merges the supplied keys
 into the existing label map.
 
+## Capture and restore snapshots
+
+```csharp
+var snapshot = await sandbox.CreateSnapshotAsync(new CreateSnapshotRequest
+{
+    Type = SnapshotType.Disk,
+    Name = "configured-workspace"
+});
+snapshot = await client.Snapshots.GetAsync(snapshot.Id); // poll until Ready
+var restored = await client.CreateSandboxAsync(new CreateSandboxRequest
+{
+    SnapshotId = snapshot.Id
+});
+```
+
+Disk snapshots capture the filesystem. Full snapshots also retain memory and
+must be restored with their captured CPU, memory, and disk sizes. Snapshot
+capture requires a running source sandbox with no attached external disks.
+Each account may retain up to five snapshots across both types. See the runnable
+[snapshot example](examples/Snapshots/README.md).
+
 ## Delegate access to one sandbox
 
 An owner can create one delegated token for a sandbox. Plaintext is returned
@@ -474,6 +495,7 @@ Runnable examples live under [`examples/`](examples/):
 - [HTTP execution server](examples/ExecutionServer/README.md)
 - [Command streaming](examples/CommandStreaming/README.md)
 - [Files and snapshots](examples/FilesAndSnapshots/README.md)
+- [Reusable snapshots](examples/Snapshots/README.md)
 - [Ingress preview](examples/IngressPreview/README.md)
 - [Private overlay network](examples/Network/README.md)
 - [Custom template and Docker](examples/CustomTemplate/README.md)

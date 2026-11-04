@@ -26,6 +26,7 @@ the local project reference. No CreateOS API key belongs in the repository.
 | [HelloWorld](HelloWorld/README.md) | Create a sandbox, run a command, destroy it |
 | [CommandStreaming](CommandStreaming/README.md) | Read command output as it arrives |
 | [FilesAndSnapshots](FilesAndSnapshots/README.md) | Upload/download files and snapshot a sandbox |
+| [Snapshots](Snapshots/README.md) | Capture and restore a reusable sandbox snapshot |
 | [IngressPreview](IngressPreview/README.md) | Expose a service through an ingress preview URL |
 | [Network](Network/README.md) | Connect sandboxes on a private network |
 | [CustomTemplate](CustomTemplate/README.md) | Build and use a custom template |

@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 namespace CreateOS.Sandbox;
 
 public enum SandboxStatus { Creating, Running, Pausing, Paused, Resuming, Forking, Error, Destroying, Destroyed, Failed }
+public enum SnapshotType { Disk, Full }
+public enum SnapshotStatus { Creating, Ready, Failed, Deleting }
 public enum HostStatus { Active, Draining, Dead }
 public enum ExecStreamEventType { Stdout, Stderr, Exit, Error, Heartbeat }
 public enum ManagedProcessKind { Process, Pty }
@@ -37,7 +39,8 @@ public enum ManagedProcessSignal
 public sealed record NetworkEntry([property: JsonPropertyName("id")] string Id);
 public sealed record CreateSandboxRequest
 {
-    [JsonPropertyName("shape")] public required string Shape { get; init; }
+    [JsonPropertyName("snapshot_id")] public string? SnapshotId { get; init; }
+    [JsonPropertyName("shape")] public string? Shape { get; init; }
     [JsonPropertyName("rootfs")] public string? RootFileSystem { get; init; }
     [JsonPropertyName("name")] public string? Name { get; init; }
     [JsonPropertyName("labels")] public IReadOnlyDictionary<string, string>? Labels { get; init; }
@@ -52,6 +55,11 @@ public sealed record CreateSandboxRequest
     [JsonPropertyName("disks")] public IReadOnlyList<DiskAttachment>? Disks { get; init; }
     [JsonPropertyName("region")] public string? Region { get; init; }
     [JsonPropertyName("auto_pause_after_seconds")] public int? AutoPauseAfterSeconds { get; init; }
+}
+public sealed record CreateSnapshotRequest
+{
+    [JsonPropertyName("type")] public required SnapshotType Type { get; init; }
+    [JsonPropertyName("name")] public string? Name { get; init; }
 }
 public sealed record ForkSandboxRequest
 {
@@ -128,7 +136,24 @@ public sealed record SandboxData
     [JsonPropertyName("last_resumed_at")] public DateTimeOffset? LastResumedAt { get; init; }
     [JsonPropertyName("forked_from")] public string? ForkedFrom { get; init; }
     [JsonPropertyName("auto_pause_after_seconds")] public int? AutoPauseAfterSeconds { get; init; }
+    [JsonPropertyName("snapshot_id")] public string? SnapshotId { get; init; }
 }
+public sealed record Snapshot
+{
+    public required string Id { get; init; }
+    [JsonPropertyName("sandbox_id")] public required string SandboxId { get; init; }
+    public string? Name { get; init; }
+    public SnapshotType Type { get; init; }
+    public SnapshotStatus Status { get; init; }
+    [JsonPropertyName("created_at")] public DateTimeOffset CreatedAt { get; init; }
+    [JsonPropertyName("ready_at")] public DateTimeOffset? ReadyAt { get; init; }
+    public string? Shape { get; init; }
+    [JsonPropertyName("vcpu")] public int VCpu { get; init; }
+    [JsonPropertyName("mem_mib")] public int MemoryMiB { get; init; }
+    [JsonPropertyName("disk_mib")] public long DiskMiB { get; init; }
+    [JsonPropertyName("size_bytes")] public long SizeBytes { get; init; }
+}
+public sealed record SnapshotDeletedResponse(string Id, SnapshotStatus Status);
 /// <summary>A plaintext delegated credential returned only on creation or rotation.</summary>
 public sealed record SandboxAccessTokenCreateResponse(
     string Token, bool Enabled,
