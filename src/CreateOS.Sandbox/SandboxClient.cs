@@ -17,6 +17,8 @@ public sealed class SandboxClient : IDisposable
     public NetworksService Networks { get; }
     /// <summary>Gets the persistent-disk service.</summary>
     public DisksService Disks { get; }
+    /// <summary>Gets the reusable-snapshot service.</summary>
+    public SnapshotsService Snapshots { get; }
 
     /// <summary>Initializes a client with explicit options or environment defaults.</summary>
     /// <param name="options">Client configuration, or <see langword="null"/> to use defaults.</param>
@@ -26,6 +28,7 @@ public sealed class SandboxClient : IDisposable
         Templates = new TemplatesService(_transport);
         Networks = new NetworksService(_transport);
         Disks = new DisksService(_transport);
+        Snapshots = new SnapshotsService(_transport);
     }
 
     /// <summary>Gets the unauthenticated service health status.</summary>

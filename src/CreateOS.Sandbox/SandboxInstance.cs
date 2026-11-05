@@ -61,6 +61,9 @@ public sealed class SandboxInstance
     public async Task RefreshAsync(CancellationToken cancellationToken = default) => Update(await RequiredAsync<SandboxData>(HttpMethod.Get, Path(), null, cancellationToken).ConfigureAwait(false));
     public async Task PauseAsync(CancellationToken cancellationToken = default) => _ = await LifecycleAsync(HttpMethod.Post, "/pause", null, cancellationToken).ConfigureAwait(false);
     public async Task ResumeAsync(CancellationToken cancellationToken = default) => _ = await LifecycleAsync(HttpMethod.Post, "/resume", null, cancellationToken).ConfigureAwait(false);
+    /// <summary>Starts a reusable snapshot capture from this running sandbox.</summary>
+    public Task<Snapshot> CreateSnapshotAsync(CreateSnapshotRequest request, CancellationToken cancellationToken = default) =>
+        RequiredAsync<Snapshot>(HttpMethod.Post, Path("/snapshots"), request, cancellationToken);
     public async Task<SandboxInstance> ForkAsync(ForkSandboxRequest? request = null, CancellationToken cancellationToken = default) => new(_transport, await RequiredAsync<SandboxData>(HttpMethod.Post, Path("/fork"), request ?? new ForkSandboxRequest(), cancellationToken).ConfigureAwait(false));
     public async Task DestroyAsync(CancellationToken cancellationToken = default)
     {

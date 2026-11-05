@@ -53,3 +53,13 @@ public sealed class DisksService
     private async Task<T> RequiredAsync<T>(HttpMethod method, string path, object? body, CancellationToken token) => await _transport.SendAsync<T>(method, path, body, cancellationToken: token).ConfigureAwait(false) ?? throw new JsonException($"{path} returned no data.");
     private sealed record Deleted([property: System.Text.Json.Serialization.JsonPropertyName("deleted")] bool DeletedValue);
 }
+
+/// <summary>Creates and manages reusable sandbox snapshots.</summary>
+public sealed class SnapshotsService
+{
+    private readonly Transport _transport; internal SnapshotsService(Transport transport) => _transport = transport;
+    public Task<IReadOnlyList<Snapshot>> ListAsync(PaginationOptions? options = null, CancellationToken token = default) => SandboxClient.FetchAllAsync<Snapshot>(_transport, "/v1/snapshots", options?.Limit, options?.Offset ?? 0, "snapshots", null, null, token);
+    public Task<Snapshot> GetAsync(string snapshotId, CancellationToken token = default) => RequiredAsync<Snapshot>(HttpMethod.Get, $"/v1/snapshots/{SandboxClient.Segment(snapshotId)}", null, token);
+    public Task<SnapshotDeletedResponse> DeleteAsync(string snapshotId, CancellationToken token = default) => RequiredAsync<SnapshotDeletedResponse>(HttpMethod.Delete, $"/v1/snapshots/{SandboxClient.Segment(snapshotId)}", null, token);
+    private async Task<T> RequiredAsync<T>(HttpMethod method, string path, object? body, CancellationToken token) => await _transport.SendAsync<T>(method, path, body, cancellationToken: token).ConfigureAwait(false) ?? throw new JsonException($"{path} returned no data.");
+}

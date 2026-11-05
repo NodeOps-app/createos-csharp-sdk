@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added reusable disk and full snapshot create, get, list, and delete operations,
+  plus sandbox restoration through `CreateSandboxRequest.SnapshotId`.
 - Added sandbox labels to create and response models, AND-matched label
   filtering in `ListSandboxesAsync()`, and label merging through
   `SandboxInstance.SetLabelsAsync()`.
