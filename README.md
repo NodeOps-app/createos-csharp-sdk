@@ -120,6 +120,28 @@ capture requires a running source sandbox with no attached external disks.
 Each account may retain up to five snapshots across both types. See the runnable
 [snapshot example](examples/Snapshots/README.md).
 
+## Checkpoint a directory
+
+Checkpoints keep local file history inside one running sandbox. Stop
+writers before create or restore; processes are not paused automatically.
+
+```csharp
+var checkpoint = await sandbox.Checkpoints.CreateAsync(
+    new CreateCheckpointRequest
+    {
+        Path = "/workspace/project",
+        Name = "before-update",
+    });
+
+var checkpoints = await sandbox.Checkpoints.ListAsync();
+var restored = await sandbox.Checkpoints.RestoreAsync(checkpoint.Id);
+await sandbox.Checkpoints.DeleteAsync(checkpoint.Id);
+```
+
+Restore always uses the checkpoint's original path. Checkpoints remain on the
+sandbox disk and disappear with it. See the runnable
+[checkpoint example](examples/Checkpoints/README.md).
+
 ## Delegate access to one sandbox
 
 An owner can create one delegated token for a sandbox. Plaintext is returned

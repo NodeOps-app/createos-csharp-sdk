@@ -2,11 +2,14 @@
 
 ## Unreleased
 
+- Added checkpoint create, list, restore, and delete operations scoped
+  to a running sandbox through `SandboxInstance.Checkpoints`.
 - Added reusable disk and full snapshot create, get, list, and delete operations,
   plus sandbox restoration through `CreateSandboxRequest.SnapshotId`.
 - Added sandbox labels to create and response models, AND-matched label
   filtering in `ListSandboxesAsync()`, and label merging through
   `SandboxInstance.SetLabelsAsync()`.
+- Set the next NuGet version and default user agent to `0.1.4`.
 
 ## [0.1.3](https://github.com/NodeOps-app/createos-csharp-sdk/releases/tag/v0.1.3) — 2026-09-21
 

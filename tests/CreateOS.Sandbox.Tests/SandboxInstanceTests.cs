@@ -80,6 +80,36 @@ public sealed class SandboxInstanceTests
     }
 
     [Fact]
+    public async Task CheckpointLifecycleEncodesIds()
+    {
+        var responses = new Queue<string>([
+            "{\"status\":\"success\",\"data\":{\"id\":\"cp_first\",\"path\":\"/workspace/app\",\"created_at\":\"2026-11-05T12:00:00Z\"}}",
+            "{\"status\":\"success\",\"data\":[{\"id\":\"cp_first\",\"path\":\"/workspace/app\",\"created_at\":\"2026-11-05T12:00:00Z\"}]}",
+            "{\"status\":\"success\",\"data\":{\"checkpoint_id\":\"cp_first/segment\",\"path\":\"/workspace/app\"}}",
+            "{\"status\":\"success\",\"data\":{}}",
+        ]);
+        var requests = new List<(string Method, string Path, string Body)>();
+        using var transport = CreateTransport(new DelegateHandler(request =>
+        {
+            requests.Add((request.Method.Method, request.RequestUri!.AbsolutePath, request.Content?.ReadAsStringAsync().GetAwaiter().GetResult() ?? ""));
+            return Json(request, responses.Dequeue());
+        }));
+        var instance = Instance(transport, ingress: false);
+
+        var checkpoint = await instance.Checkpoints.CreateAsync(new CreateCheckpointRequest { Path = "/workspace/app", Name = "before-update" });
+        var checkpoints = await instance.Checkpoints.ListAsync();
+        var restored = await instance.Checkpoints.RestoreAsync("cp_first/segment");
+        await instance.Checkpoints.DeleteAsync("cp_first/segment");
+
+        Assert.Equal("cp_first", checkpoint.Id);
+        Assert.Single(checkpoints);
+        Assert.Equal("/workspace/app", restored.Path);
+        Assert.Contains("\"path\":\"/workspace/app\"", requests[0].Body, StringComparison.Ordinal);
+        Assert.Equal("/v1/sandboxes/sb-1/checkpoints/cp_first%2Fsegment/restore", requests[2].Path);
+        Assert.Equal("/v1/sandboxes/sb-1/checkpoints/cp_first%2Fsegment", requests[3].Path);
+    }
+
+    [Fact]
     public async Task ShellThrowsForNonzeroExit()
     {
         using var transport = CreateTransport(new DelegateHandler(request => Json(request, "{\"status\":\"success\",\"data\":{\"result\":{\"stdout\":\"\",\"stderr\":\"failed\",\"exit_code\":2},\"exec_ms\":1}}")));

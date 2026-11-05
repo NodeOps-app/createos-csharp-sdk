@@ -61,6 +61,11 @@ public sealed record CreateSnapshotRequest
     [JsonPropertyName("type")] public required SnapshotType Type { get; init; }
     [JsonPropertyName("name")] public string? Name { get; init; }
 }
+public sealed record CreateCheckpointRequest
+{
+    [JsonPropertyName("path")] public required string Path { get; init; }
+    [JsonPropertyName("name")] public string? Name { get; init; }
+}
 public sealed record ForkSandboxRequest
 {
     [JsonPropertyName("start_paused")] public bool? StartPaused { get; init; }
@@ -137,6 +142,19 @@ public sealed record SandboxData
     [JsonPropertyName("forked_from")] public string? ForkedFrom { get; init; }
     [JsonPropertyName("auto_pause_after_seconds")] public int? AutoPauseAfterSeconds { get; init; }
     [JsonPropertyName("snapshot_id")] public string? SnapshotId { get; init; }
+}
+public sealed record Checkpoint
+{
+    [JsonPropertyName("id")] public required string Id { get; init; }
+    [JsonPropertyName("path")] public required string Path { get; init; }
+    [JsonPropertyName("name")] public string? Name { get; init; }
+    [JsonPropertyName("parent_id")] public string? ParentId { get; init; }
+    [JsonPropertyName("created_at")] public DateTimeOffset CreatedAt { get; init; }
+}
+public sealed record CheckpointRestoreResponse
+{
+    [JsonPropertyName("checkpoint_id")] public required string CheckpointId { get; init; }
+    [JsonPropertyName("path")] public required string Path { get; init; }
 }
 public sealed record Snapshot
 {
