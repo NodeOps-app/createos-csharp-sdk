@@ -27,6 +27,7 @@ the local project reference. No CreateOS API key belongs in the repository.
 | [CommandStreaming](CommandStreaming/README.md) | Read command output as it arrives |
 | [FilesAndSnapshots](FilesAndSnapshots/README.md) | Upload/download files and snapshot a sandbox |
 | [Snapshots](Snapshots/README.md) | Capture and restore a reusable sandbox snapshot |
+| [Checkpoints](Checkpoints/README.md) | Capture and restore local directory history |
 | [IngressPreview](IngressPreview/README.md) | Expose a service through an ingress preview URL |
 | [Network](Network/README.md) | Connect sandboxes on a private network |
 | [CustomTemplate](CustomTemplate/README.md) | Build and use a custom template |

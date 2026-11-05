@@ -16,6 +16,7 @@ public sealed class SandboxInstance
     public FilesService Files { get; }
     public ProcessesService Processes { get; }
     public ComputerService Computer { get; }
+    public CheckpointsService Checkpoints { get; }
     public string Id { get { lock (_gate) return _data.Id; } }
     public string? Name { get { lock (_gate) return _data.Name; } }
     public SandboxStatus Status { get { lock (_gate) return _data.Status; } }
@@ -26,7 +27,7 @@ public sealed class SandboxInstance
     internal SandboxInstance(Transport transport, SandboxData data)
     {
         _transport = transport; _data = data;
-        Files = new FilesService(this, transport); Processes = new ProcessesService(this, transport); Computer = new ComputerService(this, transport);
+        Files = new FilesService(this, transport); Processes = new ProcessesService(this, transport); Computer = new ComputerService(this, transport); Checkpoints = new CheckpointsService(this, transport);
     }
     internal string Path(string suffix = "") => $"/v1/sandboxes/{SandboxClient.Segment(Id)}{suffix}";
     private void Update(SandboxData data) { lock (_gate) _data = data; }
