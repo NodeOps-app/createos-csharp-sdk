@@ -34,13 +34,19 @@ public sealed class ModelSerializationTests
         {
             Shape = "s-1vcpu-1gb",
             Labels = new Dictionary<string, string> { ["team"] = "backend" },
+            TimeoutMinutes = 10,
+            SigtermBeforeExpiry = true,
         }, Transport.Json);
         var sandbox = JsonSerializer.Deserialize<SandboxData>(
-            "{\"id\":\"sb-1\",\"status\":\"running\",\"labels\":{\"team\":\"backend\"}}",
+            "{\"id\":\"sb-1\",\"status\":\"running\",\"labels\":{\"team\":\"backend\"},\"expires_at\":\"2026-11-23T12:10:00Z\",\"sigterm_before_expiry\":true}",
             Transport.Json);
 
         Assert.Contains("\"labels\":{\"team\":\"backend\"}", json, StringComparison.Ordinal);
+        Assert.Contains("\"timeout_minutes\":10", json, StringComparison.Ordinal);
+        Assert.Contains("\"sigterm_before_expiry\":true", json, StringComparison.Ordinal);
         Assert.Equal("backend", sandbox!.Labels!["team"]);
+        Assert.Equal(new DateTimeOffset(2026, 11, 23, 12, 10, 0, TimeSpan.Zero), sandbox.ExpiresAt);
+        Assert.True(sandbox.SigtermBeforeExpiry);
     }
 
     [Fact]

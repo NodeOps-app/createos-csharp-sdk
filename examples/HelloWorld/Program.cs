@@ -4,8 +4,14 @@ var client = new SandboxClient();
 var sandbox = await client.CreateSandboxAsync(new CreateSandboxRequest
 {
     Shape = "s-4vcpu-4gb",
-    RootFileSystem = "devbox:1"
+    RootFileSystem = "devbox:1",
+    TimeoutMinutes = 10,
+    SigtermBeforeExpiry = true
 });
+
+Console.WriteLine(
+    $"expires_at={sandbox.Data.ExpiresAt} " +
+    $"sigterm_before_expiry={sandbox.Data.SigtermBeforeExpiry}");
 
 try
 {

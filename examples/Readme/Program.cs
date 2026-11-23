@@ -11,10 +11,14 @@ var sandbox = await client.CreateSandboxAsync(new CreateSandboxRequest
     Name = $"csharp-{Guid.NewGuid():N}"[..22],
     Shape = "s-1vcpu-1gb",
     RootFileSystem = "devbox:1",
-    IngressEnabled = true
+    IngressEnabled = true,
+    TimeoutMinutes = 10,
+    SigtermBeforeExpiry = true
 });
 
-Console.WriteLine($"sandbox={sandbox.Id} status={sandbox.Status}");
+Console.WriteLine(
+    $"sandbox={sandbox.Id} status={sandbox.Status} expires_at={sandbox.Data.ExpiresAt} " +
+    $"sigterm_before_expiry={sandbox.Data.SigtermBeforeExpiry}");
 try
 {
     var command = await sandbox.RunCommandAsync(new RunCommandRequest
