@@ -44,6 +44,10 @@ public sealed record CreateSandboxRequest
     [JsonPropertyName("rootfs")] public string? RootFileSystem { get; init; }
     [JsonPropertyName("name")] public string? Name { get; init; }
     [JsonPropertyName("labels")] public IReadOnlyDictionary<string, string>? Labels { get; init; }
+    /// <summary>Absolute lifetime in whole minutes (2-1440) from first reaching running.</summary>
+    [JsonPropertyName("timeout_minutes")] public int? TimeoutMinutes { get; init; }
+    /// <summary>Requests a best-effort SIGTERM warning in the final minute. Requires TimeoutMinutes.</summary>
+    [JsonPropertyName("sigterm_before_expiry")] public bool? SigtermBeforeExpiry { get; init; }
     [JsonPropertyName("networks")] public IReadOnlyList<NetworkEntry>? Networks { get; init; }
     [JsonPropertyName("disk_mib")] public long? DiskMiB { get; init; }
     [JsonPropertyName("egress")] public IReadOnlyList<string>? EgressRules { get; init; }
@@ -142,6 +146,8 @@ public sealed record SandboxData
     [JsonPropertyName("forked_from")] public string? ForkedFrom { get; init; }
     [JsonPropertyName("auto_pause_after_seconds")] public int? AutoPauseAfterSeconds { get; init; }
     [JsonPropertyName("snapshot_id")] public string? SnapshotId { get; init; }
+    [JsonPropertyName("expires_at")] public DateTimeOffset? ExpiresAt { get; init; }
+    [JsonPropertyName("sigterm_before_expiry")] public bool SigtermBeforeExpiry { get; init; }
 }
 public sealed record Checkpoint
 {

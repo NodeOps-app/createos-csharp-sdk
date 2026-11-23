@@ -99,6 +99,25 @@ await sandbox.SetLabelsAsync(
 List filters use AND semantics. `SetLabelsAsync()` merges the supplied keys
 into the existing label map.
 
+## Limit sandbox lifetime
+
+```csharp
+var sandbox = await client.CreateSandboxAsync(new CreateSandboxRequest
+{
+    Shape = "s-1vcpu-1gb",
+    RootFileSystem = "devbox:1",
+    TimeoutMinutes = 10,
+    SigtermBeforeExpiry = true,
+});
+
+Console.WriteLine(sandbox.Data.ExpiresAt);
+```
+
+`TimeoutMinutes` accepts 2–1440 whole minutes and starts when the sandbox first
+reaches `Running`. Activity and pause/resume do not extend the deadline.
+`SigtermBeforeExpiry` requests a best-effort warning to managed workloads during
+the final minute and requires `TimeoutMinutes`.
+
 ## Capture and restore snapshots
 
 ```csharp

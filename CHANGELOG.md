@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added optional sandbox expiry through `CreateSandboxRequest.TimeoutMinutes`,
+  with `ExpiresAt` response fields and an optional final-minute SIGTERM warning.
 - Added checkpoint create, list, restore, and delete operations scoped
   to a running sandbox through `SandboxInstance.Checkpoints`.
 - Added reusable disk and full snapshot create, get, list, and delete operations,

@@ -1,6 +1,8 @@
 # Hello world
 
-Creates a sandbox, runs a command, and destroys the sandbox. See [Program.cs](Program.cs) for the code.
+Creates a sandbox with a 10-minute lifetime and final-minute SIGTERM warning,
+prints the returned deadline, runs a command, and destroys the sandbox. See
+[Program.cs](Program.cs) for the code.
 
 From the repository root:
 
